@@ -24,7 +24,7 @@ function FacultyEvaluate() {
 
         alert(result.message);
 
-        navigate("/faculty-stored-scripts");
+//         navigate("/faculty-stored-scripts");
 
     }
 
@@ -52,7 +52,7 @@ function FacultyEvaluate() {
 
         alert(result.message);
 
-        navigate("/faculty-stored-scripts");
+//         navigate("/faculty-stored-scripts");
 
     }
 
