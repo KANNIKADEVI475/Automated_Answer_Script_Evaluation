@@ -3,26 +3,20 @@ from models import User
 
 db = SessionLocal()
 
-# Avoid duplicate users
-existing = db.query(User).filter(User.username == "admin").first()
+users = [
+    ("admin", "1234"),
+    ("nivetha", "dec18"),
+    ("praveena", "oct19"),
+    ("kannika", "jun14"),
+]
 
-if existing is None:
-    user1 = User(
-        username="admin",
-        password="1234"
-    )
+for username, password in users:
+    existing = db.query(User).filter(User.username == username).first()
 
-    user2 = User(
-        username="student",
-        password="abcd"
-    )
+    if not existing:
+        db.add(User(username=username, password=password))
 
-    db.add(user1)
-    db.add(user2)
-    db.commit()
-
-    print("Users inserted successfully.")
-else:
-    print("Users already exist.")
-
+db.commit()
 db.close()
+
+print("Database seeded successfully.")
