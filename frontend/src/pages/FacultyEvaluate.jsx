@@ -1,6 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import "./../App.css";
 
+import {
+    evaluateStudentScripts,
+    evaluateWithAnswerKey
+} from "../api/uploadApi";
+
 function FacultyEvaluate() {
   const navigate = useNavigate();
 
@@ -11,39 +16,55 @@ function FacultyEvaluate() {
       <div className="action-buttons evaluate-actions">
             <button
               className="main-upload-btn"
-              onClick={() => {
-                try{
-                  const raw = localStorage.getItem('answerScripts');
-                  if(raw){
-                    const arr = JSON.parse(raw);
-                    if(Array.isArray(arr) && arr.length>0){
-                      navigate('/faculty-stored-scripts');
-                      return;
-                    }
-                  }
-                }catch(e){}
-                alert('Answer script does not exist.');
-              }}
+             onClick={async () => {
+
+    try {
+
+        const result = await evaluateStudentScripts();
+
+        alert(result.message);
+
+        navigate("/faculty-stored-scripts");
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        alert("Evaluation Failed");
+
+    }
+
+}}
             >
               📝 Evaluate Student Answer Scripts
             </button>
 
             <button
               className="optional-btn"
-              onClick={() => {
-                try{
-                  const key = localStorage.getItem('answerKey');
-                  const raw = localStorage.getItem('answerScripts');
-                  if(key && raw){
-                    const arr = JSON.parse(raw);
-                    if(Array.isArray(arr) && arr.length>0){
-                      navigate('/faculty-stored-scripts');
-                      return;
-                    }
-                  }
-                }catch(e){}
-                alert('Answer script does not exist or answer key is missing.');
-              }}
+             onClick={async ()=>{
+
+    try{
+
+        const result =
+            await evaluateWithAnswerKey();
+
+        alert(result.message);
+
+        navigate("/faculty-stored-scripts");
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        alert("Evaluation Failed");
+
+    }
+
+}}
             >
               🧠 Evaluate with Uploaded Answer Key
             </button>
